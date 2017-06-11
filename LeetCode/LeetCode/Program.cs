@@ -11,11 +11,9 @@ namespace LeetCode
         static void Main(string[] args)
         {
             var list1Items = Console.ReadLine();
-            var list2Items = Console.ReadLine();
             var items1 = AddItems(list1Items);
-            var items2 = AddItems(list2Items);
 
-            var output = AddTwoNumbers(items1, items2);
+            var output = ReverseBetween(items1, Convert.ToInt32(Console.ReadLine()), Convert.ToInt32(Console.ReadLine()));
             WriteOutput(output);
             if (System.Diagnostics.Debugger.IsAttached) Console.ReadKey();
         }
@@ -61,52 +59,29 @@ namespace LeetCode
             }
         }
 
-        static ListNode AddTwoNumbers(ListNode l1, ListNode l2)
+        static ListNode ReverseBetween(ListNode head, int m, int n)
         {
-            if (l1 == null || l2 == null) throw new ArgumentNullException();
-            ListNode summedList = null;
-            ListNode l1CurrentNode = l1;
-            ListNode l2CurrentNode = l2;
-            var firstValue = new StringBuilder();
-            var secondValue = new StringBuilder();
-            ListNode currentElement1 = l1;
-            ListNode currentElement2 = l2;
+            var iterator = 1;
+            var currentNode = head;
+            ListNode mNode = null, nNode = null;
             while (true)
             {
-                if (currentElement1 == null && currentElement2 == null) break;
-
-                if (currentElement1 != null)
+                if (iterator == m)
                 {
-                    firstValue.Append(currentElement1.val.ToString());
-                    currentElement1 = currentElement1.next;
+                    mNode = currentNode;
                 }
-                if (currentElement2 != null)
+                if (iterator == n)
                 {
-                    secondValue.Append(currentElement2.val.ToString());
-                    currentElement2 = currentElement2.next;
+                    nNode = currentNode;
                 }
+                if (mNode != null && nNode != null) break;
+                currentNode = currentNode.next;
+                ++iterator;
             }
-            var total = GetNumber(firstValue) + GetNumber(secondValue);
-
-            var reversed = total.ToString().ToCharArray();
-            Array.Reverse(reversed);
-            foreach (var item in reversed)
-            {
-                AddNode(item - '0', ref summedList);
-            }
-            return summedList;
-        }
-
-        /// <summary>
-        /// Reverse the string and get the number
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        static BigInteger GetNumber(StringBuilder value)
-        {
-            var reversed = value.ToString().ToCharArray();
-            Array.Reverse(reversed);
-            return BigInteger.Parse(new string(reversed));
+            var tempNode = mNode.next;
+            mNode.next = nNode.next;
+            mNode.next = tempNode;
+            return head;
         }
 
         /// <summary>
