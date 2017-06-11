@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Numerics;
 
 namespace LeetCode
 {
@@ -19,6 +20,11 @@ namespace LeetCode
             if (System.Diagnostics.Debugger.IsAttached) Console.ReadKey();
         }
 
+        /// <summary>
+        /// Build the linked list
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         static ListNode AddItems(string data)
         {
             ListNode nodeBeginning = null;
@@ -29,6 +35,11 @@ namespace LeetCode
             return nodeBeginning;
         }
 
+        /// <summary>
+        /// Add the value to the list
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="linkedList"></param>
         static void AddNode(int value, ref ListNode linkedList)
         {
             if (linkedList == null)
@@ -75,15 +86,9 @@ namespace LeetCode
                     currentElement2 = currentElement2.next;
                 }
             }
-            var reversed = firstValue.ToString().ToCharArray();
-            Array.Reverse(reversed);
-            var firstNumber = Convert.ToInt64(new string(reversed));
-            reversed = secondValue.ToString().ToCharArray();
-            Array.Reverse(reversed);
-            var secondNumber = Convert.ToInt64(new string(reversed));
-            var total = firstNumber + secondNumber;
+            var total = GetNumber(firstValue) + GetNumber(secondValue);
 
-            reversed = total.ToString().ToCharArray();
+            var reversed = total.ToString().ToCharArray();
             Array.Reverse(reversed);
             foreach (var item in reversed)
             {
@@ -92,6 +97,22 @@ namespace LeetCode
             return summedList;
         }
 
+        /// <summary>
+        /// Reverse the string and get the number
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        static BigInteger GetNumber(StringBuilder value)
+        {
+            var reversed = value.ToString().ToCharArray();
+            Array.Reverse(reversed);
+            return BigInteger.Parse(new string(reversed));
+        }
+
+        /// <summary>
+        /// Write the output to console
+        /// </summary>
+        /// <param name="data"></param>
         static void WriteOutput(ListNode data)
         {
             var currentNode = data;
