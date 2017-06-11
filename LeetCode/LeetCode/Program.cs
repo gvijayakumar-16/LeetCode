@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace LeetCode
 {
@@ -10,36 +9,104 @@ namespace LeetCode
     {
         static void Main(string[] args)
         {
-            var output = TwoSum(Console.ReadLine().Split(',').Select(x => int.Parse(x)).ToArray(), 9);
+            var list1Items = Console.ReadLine();
+            var list2Items = Console.ReadLine();
+            var items1 = AddItems(list1Items);
+            var items2 = AddItems(list2Items);
+
+            var output = AddTwoNumbers(items1, items2);
             WriteOutput(output);
             if (System.Diagnostics.Debugger.IsAttached) Console.ReadKey();
         }
 
-        static int[] TwoSum(int[] nums, int target)
+        static ListNode AddItems(string data)
         {
-            var indices = new int[2];
-            for (int i = 0; i < nums.Length; i++)
+            ListNode nodeBeginning = null;
+            foreach (var item in data.Split(','))
             {
-                for (int j = 0; j < nums.Length; j++)
-                {
-                    if (i == j) continue;
-                    if (nums[i] + nums[j] == target)
-                    {
-                        indices[0] = i;
-                        indices[1] = j;
-                        return indices;
-                    }
-                }
+                AddNode(Convert.ToInt32(item), ref nodeBeginning);
             }
-            return indices;
+            return nodeBeginning;
         }
 
-        static void WriteOutput(int[] data)
+        static void AddNode(int value, ref ListNode linkedList)
         {
-            foreach (var datum in data)
+            if (linkedList == null)
             {
-                Console.WriteLine(datum + ",");
+                linkedList = new ListNode(Convert.ToInt32(value));
+            }
+            else
+            {
+                ListNode currentNode = linkedList;
+                while (true)
+                {
+                    if (currentNode.next == null)
+                    {
+                        currentNode.next = new ListNode(value);
+                        break;
+                    }
+                    currentNode = currentNode.next;
+                }
             }
         }
+
+        static ListNode AddTwoNumbers(ListNode l1, ListNode l2)
+        {
+            if (l1 == null || l2 == null) throw new ArgumentNullException();
+            ListNode summedList = null;
+            ListNode l1CurrentNode = l1;
+            ListNode l2CurrentNode = l2;
+            var firstValue = new StringBuilder();
+            var secondValue = new StringBuilder();
+            ListNode currentElement1 = l1;
+            ListNode currentElement2 = l2;
+            while (true)
+            {
+                if (currentElement1 == null && currentElement2 == null) break;
+
+                if (currentElement1 != null)
+                {
+                    firstValue.Append(currentElement1.val.ToString());
+                    currentElement1 = currentElement1.next;
+                }
+                if (currentElement2 != null)
+                {
+                    secondValue.Append(currentElement2.val.ToString());
+                    currentElement2 = currentElement2.next;
+                }
+            }
+            var reversed = firstValue.ToString().ToCharArray();
+            Array.Reverse(reversed);
+            var firstNumber = Convert.ToInt64(new string(reversed));
+            reversed = secondValue.ToString().ToCharArray();
+            Array.Reverse(reversed);
+            var secondNumber = Convert.ToInt64(new string(reversed));
+            var total = firstNumber + secondNumber;
+
+            reversed = total.ToString().ToCharArray();
+            Array.Reverse(reversed);
+            foreach (var item in reversed)
+            {
+                AddNode(item - '0', ref summedList);
+            }
+            return summedList;
+        }
+
+        static void WriteOutput(ListNode data)
+        {
+            var currentNode = data;
+            while (currentNode != null)
+            {
+                Console.Write(currentNode.val + "->");
+                currentNode = currentNode.next;
+            }
+        }
+    }
+
+    public class ListNode
+    {
+        public int val;
+        public ListNode next;
+        public ListNode(int x) { val = x; }
     }
 }
