@@ -78,9 +78,9 @@ namespace LeetCode
                 currentNode = currentNode.next;
                 ++iterator;
             }
-            var tempNode = mNode.next;
-            mNode.next = nNode.next;
-            mNode.next = tempNode;
+            var tempValue = mNode.val;
+            mNode.val = nNode.val;
+            nNode.val = tempValue;
             return head;
         }
 
