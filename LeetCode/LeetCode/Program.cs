@@ -59,28 +59,50 @@ namespace LeetCode
             }
         }
 
+        /// <summary>
+        /// Fails for [3,5], 1,2
+        /// </summary>
+        /// <param name="head"></param>
+        /// <param name="m"></param>
+        /// <param name="n"></param>
+        /// <returns></returns>
         static ListNode ReverseBetween(ListNode head, int m, int n)
         {
-            var iterator = 1;
-            var currentNode = head;
-            ListNode mNode = null, nNode = null;
-            while (true)
+            int iterator = 0, count = 0;
+            ListNode currentNode = head, mNode = null, nNode = null, nextNode = null, prevNode = null, mMinus1Node = null, nPlus1Node = null;
+            while (currentNode != null)
             {
-                if (iterator == m)
+                ++iterator;
+                if (iterator >= m && iterator <= n) ++count;
+                if (iterator == m - 1) mMinus1Node = currentNode;
+                if (iterator == n + 1)
+                {
+                    nPlus1Node = currentNode; break;
+                }
+                else if (iterator == m)
                 {
                     mNode = currentNode;
                 }
-                if (iterator == n)
+                else if (iterator == n)
                 {
                     nNode = currentNode;
                 }
-                if (mNode != null && nNode != null) break;
                 currentNode = currentNode.next;
-                ++iterator;
             }
-            var tempValue = mNode.val;
-            mNode.val = nNode.val;
-            nNode.val = tempValue;
+            currentNode = mNode;
+            iterator = 0;
+            prevNode = nPlus1Node;
+            while (currentNode != null)
+            {
+                ++iterator;
+                nextNode = currentNode.next;
+                currentNode.next = prevNode;
+                prevNode = currentNode;
+                currentNode = nextNode;
+                if (iterator == count) break;
+            }
+            if (mMinus1Node != null)
+                mMinus1Node.next = prevNode;
             return head;
         }
 
