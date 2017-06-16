@@ -68,42 +68,64 @@ namespace LeetCode
         /// <returns></returns>
         static ListNode ReverseBetween(ListNode head, int m, int n)
         {
-            int iterator = 0, count = 0;
-            ListNode currentNode = head, mNode = null, nNode = null, nextNode = null, prevNode = null, mMinus1Node = null, nPlus1Node = null;
+            int iterator = 0;
+            ListNode currentNode = head, splicedNodes = null, newNodes = null;
+            string data = string.Empty;
             while (currentNode != null)
             {
                 ++iterator;
-                if (iterator >= m && iterator <= n) ++count;
-                if (iterator == m - 1) mMinus1Node = currentNode;
-                if (iterator == n + 1)
+                if (iterator >= m && iterator <= n)
                 {
-                    nPlus1Node = currentNode; break;
-                }
-                else if (iterator == m)
-                {
-                    mNode = currentNode;
-                }
-                else if (iterator == n)
-                {
-                    nNode = currentNode;
+                    AddNode(Convert.ToInt32(currentNode.val), ref splicedNodes);
                 }
                 currentNode = currentNode.next;
             }
-            currentNode = mNode;
+            Reverse(ref splicedNodes);
+            currentNode = head;
             iterator = 0;
-            prevNode = nPlus1Node;
             while (currentNode != null)
             {
                 ++iterator;
+                if (iterator < m)
+                {
+                    AddNode(currentNode.val, ref newNodes);
+                    if (m == iterator - 1) break;
+                    currentNode = currentNode.next;
+                    continue;
+                }
+                break;
+            }
+            var tempNode = newNodes;
+            while (tempNode != null)
+            {
+                if (tempNode.next == null) { tempNode.next = splicedNodes; break; }
+                else tempNode = tempNode.next;
+            }
+            if (newNodes == null) newNodes = splicedNodes;
+            while (currentNode != null)
+            {
+                ++iterator;
+                if (iterator > n + 1)
+                {
+                    AddNode(currentNode.val, ref newNodes);
+                }
+                currentNode = currentNode.next;
+            }
+
+            return newNodes;
+        }
+
+        static void Reverse(ref ListNode head)
+        {
+            ListNode currentNode = head, prevNode = null, nextNode = null;
+            while (currentNode != null)
+            {
                 nextNode = currentNode.next;
                 currentNode.next = prevNode;
                 prevNode = currentNode;
                 currentNode = nextNode;
-                if (iterator == count) break;
             }
-            if (mMinus1Node != null)
-                mMinus1Node.next = prevNode;
-            return head;
+            head = prevNode;
         }
 
         /// <summary>
