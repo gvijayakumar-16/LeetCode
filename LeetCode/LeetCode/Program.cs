@@ -11,9 +11,11 @@ namespace LeetCode
         static void Main(string[] args)
         {
             var list1Items = Console.ReadLine();
-            var items1 = AddItems(list1Items);
-
-            var output = RemoveNthFromEnd(items1, Convert.ToInt32(Console.ReadLine()));
+            var list2Items = Console.ReadLine();
+            //var items1 = AddItems(list1Items);
+            //var items2 = AddItems(list2Items);
+            //var output = MergeTwoLists(items1, items2);
+            var output = MergeTwoLists(new ListNode(1), null);
             WriteOutput(output);
             if (System.Diagnostics.Debugger.IsAttached) Console.ReadKey();
         }
@@ -47,7 +49,7 @@ namespace LeetCode
             else
             {
                 ListNode currentNode = linkedList;
-                while (true)
+                while (currentNode != null)
                 {
                     if (currentNode.next == null)
                     {
@@ -59,52 +61,33 @@ namespace LeetCode
             }
         }
 
-        static ListNode RemoveNthFromEnd(ListNode head, int n)
+        static ListNode MergeTwoLists(ListNode l1, ListNode l2)
         {
-            var length = GetListLength(head);
-            var nodeIndexToRemove = length + 1 - n;
-            ListNode currentNode = head, prevNode = null;
-            var iterator = 0;
-            while (currentNode != null)
+            ListNode l1CurrentNode = l1, l2CurrentNode = l2, mergedList = null;
+            while (l1 != null || l2 != null)
             {
-                iterator++;
-                if (nodeIndexToRemove == iterator)
+                if (l1 == null)
                 {
-                    if (prevNode != null)
-                        prevNode.next = currentNode.next;
-                    else
-                        head = currentNode.next;
-                    break;
+                    AddNode(l2.val, ref mergedList);
+                    l2 = l2.next;
                 }
-                prevNode = currentNode;
-                currentNode = currentNode.next;
+                else if (l2 == null)
+                {
+                    AddNode(l1.val, ref mergedList);
+                    l1 = l1.next;
+                }
+                else if (l1.val < l2.val)
+                {
+                    AddNode(l1.val, ref mergedList);
+                    l1 = l1.next;
+                }
+                else
+                {
+                    AddNode(l2.val, ref mergedList);
+                    l2 = l2.next;
+                }
             }
-            return head;
-        }
-
-        static int GetListLength(ListNode head)
-        {
-            var currentNode = head;
-            var iterator = 0;
-            while (currentNode != null)
-            {
-                iterator++;
-                currentNode = currentNode.next;
-            }
-            return iterator;
-        }
-
-        static void Reverse(ref ListNode head)
-        {
-            ListNode currentNode = head, prevNode = null, nextNode = null;
-            while (currentNode != null)
-            {
-                nextNode = currentNode.next;
-                currentNode.next = prevNode;
-                prevNode = currentNode;
-                currentNode = nextNode;
-            }
-            head = prevNode;
+            return mergedList;
         }
 
         /// <summary>
