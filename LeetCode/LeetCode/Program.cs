@@ -13,7 +13,7 @@ namespace LeetCode
             var list1Items = Console.ReadLine();
             var items1 = AddItems(list1Items);
 
-            var output = ReverseBetween(items1, Convert.ToInt32(Console.ReadLine()), Convert.ToInt32(Console.ReadLine()));
+            var output = RemoveNthFromEnd(items1, Convert.ToInt32(Console.ReadLine()));
             WriteOutput(output);
             if (System.Diagnostics.Debugger.IsAttached) Console.ReadKey();
         }
@@ -59,60 +59,39 @@ namespace LeetCode
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="head"></param>
-        /// <param name="m"></param>
-        /// <param name="n"></param>
-        /// <returns></returns>
-        static ListNode ReverseBetween(ListNode head, int m, int n)
+        static ListNode RemoveNthFromEnd(ListNode head, int n)
         {
-            int iterator = 0;
-            ListNode currentNode = head, splicedNodes = null, newNodes = null;
-            string data = string.Empty;
+            var length = GetListLength(head);
+            var nodeIndexToRemove = length + 1 - n;
+            ListNode currentNode = head, prevNode = null;
+            var iterator = 0;
             while (currentNode != null)
             {
-                ++iterator;
-                if (iterator >= m && iterator <= n)
+                iterator++;
+                if (nodeIndexToRemove == iterator)
                 {
-                    AddNode(Convert.ToInt32(currentNode.val), ref splicedNodes);
+                    if (prevNode != null)
+                        prevNode.next = currentNode.next;
+                    else
+                        head = currentNode.next;
+                    break;
                 }
+                prevNode = currentNode;
                 currentNode = currentNode.next;
             }
-            Reverse(ref splicedNodes);
-            currentNode = head;
-            iterator = 0;
-            while (currentNode != null)
-            {
-                ++iterator;
-                if (iterator < m)
-                {
-                    AddNode(currentNode.val, ref newNodes);
-                    if (m == iterator - 1) break;
-                    currentNode = currentNode.next;
-                    continue;
-                }
-                break;
-            }
-            var tempNode = newNodes;
-            while (tempNode != null)
-            {
-                if (tempNode.next == null) { tempNode.next = splicedNodes; break; }
-                else tempNode = tempNode.next;
-            }
-            if (newNodes == null) newNodes = splicedNodes;
-            while (currentNode != null)
-            {
-                ++iterator;
-                if (iterator > n + 1)
-                {
-                    AddNode(currentNode.val, ref newNodes);
-                }
-                currentNode = currentNode.next;
-            }
+            return head;
+        }
 
-            return newNodes;
+        static int GetListLength(ListNode head)
+        {
+            var currentNode = head;
+            var iterator = 0;
+            while (currentNode != null)
+            {
+                iterator++;
+                currentNode = currentNode.next;
+            }
+            return iterator;
         }
 
         static void Reverse(ref ListNode head)
