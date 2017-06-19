@@ -58,26 +58,76 @@ namespace LeetCode
             }
         }
 
+        /// <summary>
+        /// Fails for [1,2,3,4,5]
+        /// 1
+        /// </summary>
+        /// <param name="head"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
         static ListNode ReverseKGroup(ListNode head, int k)
         {
-            ListNode currentNode = head, prevNode = null, newList = null;
+            ListNode currentNode = head, prevNode = null, newList = null, tempList = null;
+            var listLength = GetLength(head);
+            var visitedLength = 0;
             int iterator = 0;
             while (currentNode != null)
             {
                 ++iterator;
                 if (iterator <= k)
                 {
-                    AddNode(currentNode.val, ref newList);
+                    ++visitedLength;
+                    AddNode(currentNode.val, ref tempList);
                     prevNode = currentNode;
                     currentNode = currentNode.next;
-                    if (iterator == k) Reverse(ref newList);
+                    if (iterator == k) Reverse(ref tempList);
+                    if (currentNode == null) AppendList(tempList, ref newList);
                     continue;
                 }
+                AppendList(tempList, ref newList);
+                tempList = null;
+                if (k + visitedLength - 1 <= listLength)
+                {
+                    iterator = 0;
+                    continue;
+                }
+                ++visitedLength;
                 AddNode(currentNode.val, ref newList);
                 prevNode = currentNode;
                 currentNode = currentNode.next;
             }
             return newList;
+        }
+
+        static void AppendList(ListNode tempList, ref ListNode originalList)
+        {
+            if (tempList == null) return;
+            if (originalList == null) originalList = tempList;
+            else
+            {
+                var c1Node = originalList;
+                while (c1Node != null)
+                {
+                    if (c1Node.next == null)
+                    {
+                        c1Node.next = tempList;
+                        break;
+                    }
+                    c1Node = c1Node.next;
+                }
+            }
+        }
+
+        static int GetLength(ListNode head)
+        {
+            var currentNode = head;
+            var iterator = 0;
+            while (currentNode != null)
+            {
+                ++iterator;
+                currentNode = currentNode.next;
+            }
+            return iterator;
         }
 
         static void Reverse(ref ListNode head)
