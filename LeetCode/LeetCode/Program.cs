@@ -11,11 +11,8 @@ namespace LeetCode
         static void Main(string[] args)
         {
             var list1Items = Console.ReadLine();
-            var list2Items = Console.ReadLine();
-            //var items1 = AddItems(list1Items);
-            //var items2 = AddItems(list2Items);
-            //var output = MergeTwoLists(items1, items2);
-            var output = MergeTwoLists(new ListNode(1), null);
+            var items1 = AddItems(list1Items);
+            var output = SwapPairs(items1);
             WriteOutput(output);
             if (System.Diagnostics.Debugger.IsAttached) Console.ReadKey();
         }
@@ -61,33 +58,27 @@ namespace LeetCode
             }
         }
 
-        static ListNode MergeTwoLists(ListNode l1, ListNode l2)
+        static ListNode SwapPairs(ListNode head)
         {
-            ListNode l1CurrentNode = l1, l2CurrentNode = l2, mergedList = null;
-            while (l1 != null || l2 != null)
+            ListNode currentNode = head, prevNode = null, newList = null;
+            bool endPair = false;
+            while (currentNode != null)
             {
-                if (l1 == null)
+                if (endPair)
                 {
-                    AddNode(l2.val, ref mergedList);
-                    l2 = l2.next;
+                    AddNode(currentNode.val, ref newList);
+                    AddNode(prevNode.val, ref newList);
+                    prevNode = currentNode.next;
+                    currentNode = currentNode.next;
+                    endPair = false;
+                    continue;
                 }
-                else if (l2 == null)
-                {
-                    AddNode(l1.val, ref mergedList);
-                    l1 = l1.next;
-                }
-                else if (l1.val < l2.val)
-                {
-                    AddNode(l1.val, ref mergedList);
-                    l1 = l1.next;
-                }
-                else
-                {
-                    AddNode(l2.val, ref mergedList);
-                    l2 = l2.next;
-                }
+                prevNode = currentNode;
+                currentNode = currentNode.next;
+                endPair = !endPair;
+                if (currentNode == null) AddNode(prevNode.val, ref newList);
             }
-            return mergedList;
+            return newList;
         }
 
         /// <summary>
