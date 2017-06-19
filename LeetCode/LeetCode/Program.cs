@@ -12,7 +12,10 @@ namespace LeetCode
         {
             var list1Items = Console.ReadLine();
             var items1 = AddItems(list1Items);
-            var output = ReverseKGroup(items1, Convert.ToInt32(Console.ReadLine()));
+            var list2Items = Console.ReadLine();
+            var items2 = AddItems(list2Items);
+            ListNode[] listNodesArray = { items1, items2 };
+            var output = MergeKLists(listNodesArray);
             WriteOutput(output);
             if (System.Diagnostics.Debugger.IsAttached) Console.ReadKey();
         }
@@ -59,65 +62,60 @@ namespace LeetCode
         }
 
         /// <summary>
-        /// Fails for [1,2,3,4,5]
-        /// 1
+        /// 
         /// </summary>
-        /// <param name="head"></param>
-        /// <param name="k"></param>
+        /// <param name="lists"></param>
         /// <returns></returns>
-        static ListNode ReverseKGroup(ListNode head, int k)
+        static ListNode MergeKLists(ListNode[] lists)
         {
-            ListNode currentNode = head, prevNode = null, newList = null, tempList = null;
-            var listLength = GetLength(head);
-            var visitedLength = 0;
-            int iterator = 0;
-            while (currentNode != null)
+            ListNode newList = null;
+            List<int> listElements = new List<int>();
+            foreach (var list in lists)
             {
-                ++iterator;
-                if (iterator <= k)
+                var currentNode = list;
+                while (currentNode != null)
                 {
-                    ++visitedLength;
-                    AddNode(currentNode.val, ref tempList);
-                    prevNode = currentNode;
+                    listElements.Add(currentNode.val);
                     currentNode = currentNode.next;
-                    if (iterator == k) Reverse(ref tempList);
-                    if (currentNode == null) AppendList(tempList, ref newList);
-                    continue;
                 }
-                AppendList(tempList, ref newList);
-                tempList = null;
-                if (k + visitedLength - 1 <= listLength)
-                {
-                    iterator = 0;
-                    continue;
-                }
-                ++visitedLength;
-                AddNode(currentNode.val, ref newList);
-                prevNode = currentNode;
-                currentNode = currentNode.next;
+            }
+            listElements.Sort();
+            foreach (var item in listElements)
+            {
+                AddNode(item, ref newList);
             }
             return newList;
         }
 
+        /// <summary>
+        /// Append to end of list
+        /// </summary>
+        /// <param name="tempList"></param>
+        /// <param name="originalList"></param>
         static void AppendList(ListNode tempList, ref ListNode originalList)
         {
             if (tempList == null) return;
             if (originalList == null) originalList = tempList;
             else
             {
-                var c1Node = originalList;
-                while (c1Node != null)
+                var tempNode = originalList;
+                while (tempNode != null)
                 {
-                    if (c1Node.next == null)
+                    if (tempNode.next == null)
                     {
-                        c1Node.next = tempList;
+                        tempNode.next = tempList;
                         break;
                     }
-                    c1Node = c1Node.next;
+                    tempNode = tempNode.next;
                 }
             }
         }
 
+        /// <summary>
+        /// Get the length of the list
+        /// </summary>
+        /// <param name="head"></param>
+        /// <returns></returns>
         static int GetLength(ListNode head)
         {
             var currentNode = head;
@@ -130,6 +128,10 @@ namespace LeetCode
             return iterator;
         }
 
+        /// <summary>
+        /// REverse the list
+        /// </summary>
+        /// <param name="head"></param>
         static void Reverse(ref ListNode head)
         {
             ListNode currentNode = head, prevNode = null, nextNode = null;
