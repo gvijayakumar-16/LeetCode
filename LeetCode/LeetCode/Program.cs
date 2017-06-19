@@ -12,7 +12,7 @@ namespace LeetCode
         {
             var list1Items = Console.ReadLine();
             var items1 = AddItems(list1Items);
-            var output = SwapPairs(items1);
+            var output = ReverseKGroup(items1, Convert.ToInt32(Console.ReadLine()));
             WriteOutput(output);
             if (System.Diagnostics.Debugger.IsAttached) Console.ReadKey();
         }
@@ -58,27 +58,39 @@ namespace LeetCode
             }
         }
 
-        static ListNode SwapPairs(ListNode head)
+        static ListNode ReverseKGroup(ListNode head, int k)
         {
             ListNode currentNode = head, prevNode = null, newList = null;
-            bool endPair = false;
+            int iterator = 0;
             while (currentNode != null)
             {
-                if (endPair)
+                ++iterator;
+                if (iterator <= k)
                 {
                     AddNode(currentNode.val, ref newList);
-                    AddNode(prevNode.val, ref newList);
-                    prevNode = currentNode.next;
+                    prevNode = currentNode;
                     currentNode = currentNode.next;
-                    endPair = false;
+                    if (iterator == k) Reverse(ref newList);
                     continue;
                 }
+                AddNode(currentNode.val, ref newList);
                 prevNode = currentNode;
                 currentNode = currentNode.next;
-                endPair = !endPair;
-                if (currentNode == null) AddNode(prevNode.val, ref newList);
             }
             return newList;
+        }
+
+        static void Reverse(ref ListNode head)
+        {
+            ListNode currentNode = head, prevNode = null, nextNode = null;
+            while (currentNode != null)
+            {
+                nextNode = currentNode.next;
+                currentNode.next = prevNode;
+                prevNode = currentNode;
+                currentNode = nextNode;
+            }
+            head = prevNode;
         }
 
         /// <summary>
