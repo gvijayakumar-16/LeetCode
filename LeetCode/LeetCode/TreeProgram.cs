@@ -16,6 +16,18 @@ namespace LeetCode
             public TreeNode(int x) { val = x; }
         }
 
+        /// <summary>
+        /// Fails for [1,2] all left nodes
+        /// Expected 1
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        static int MinDepth(TreeNode root)
+        {
+            if (root == null) return 0;
+            return 1 + Math.Min(MinDepth(root.left), MinDepth(root.right));
+        }
+
         static int GetDepth(TreeNode root)
         {
             if (root == null) return 0;
@@ -30,16 +42,16 @@ namespace LeetCode
         public static void PrintTree(TreeNode root)
         {
             ConstructTree(ref root);
-            Console.WriteLine("Height = " + GetDepth(root));
+            Console.WriteLine("MinDepth = " + MinDepth(root));
         }
 
         static void ConstructTree(ref TreeNode root)
         {
             root = new TreeNode(1);
             root.left = new TreeNode(2);
-            root.right = new TreeNode(3);
-            root.left.left = new TreeNode(4);
-            root.left.right = new TreeNode(5);
+            //root.right = new TreeNode(3);
+            //root.left.left = new TreeNode(4);
+            //root.left.right = new TreeNode(5);
         }
 
         /// <summary>
