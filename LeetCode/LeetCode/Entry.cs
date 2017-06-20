@@ -1,14 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LeetCode
 {
     class Entry
     {
         static void Main(string[] args)
+        {
+            //ExecuteLinkedListProgram();
+            ExecuteTreeProgram();
+            if (System.Diagnostics.Debugger.IsAttached) Console.ReadKey();
+        }
+
+        static void ExecuteLinkedListProgram()
         {
             var list1Items = Console.ReadLine();
             var items1 = LinkedListProgram.AddItems(list1Items);
@@ -17,7 +20,11 @@ namespace LeetCode
             ListNode[] listNodesArray = { items1, items2 };
             var output = LinkedListProgram.MergeKLists(listNodesArray);
             LinkedListProgram.WriteOutput(output);
-            if (System.Diagnostics.Debugger.IsAttached) Console.ReadKey();
+        }
+
+        static void ExecuteTreeProgram()
+        {
+            TreeProgram.PrintTree(null);
         }
     }
 }
