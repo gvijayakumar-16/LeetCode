@@ -6,26 +6,14 @@ using System.Numerics;
 
 namespace LeetCode
 {
-    class Program
+    public class LinkedListProgram
     {
-        static void Main(string[] args)
-        {
-            var list1Items = Console.ReadLine();
-            var items1 = AddItems(list1Items);
-            var list2Items = Console.ReadLine();
-            var items2 = AddItems(list2Items);
-            ListNode[] listNodesArray = { items1, items2 };
-            var output = MergeKLists(listNodesArray);
-            WriteOutput(output);
-            if (System.Diagnostics.Debugger.IsAttached) Console.ReadKey();
-        }
-
         /// <summary>
         /// Build the linked list
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        static ListNode AddItems(string data)
+        public static ListNode AddItems(string data)
         {
             ListNode nodeBeginning = null;
             foreach (var item in data.Split(','))
@@ -66,7 +54,7 @@ namespace LeetCode
         /// </summary>
         /// <param name="lists"></param>
         /// <returns></returns>
-        static ListNode MergeKLists(ListNode[] lists)
+        public static ListNode MergeKLists(ListNode[] lists)
         {
             ListNode newList = null;
             List<int> listElements = new List<int>();
@@ -149,7 +137,7 @@ namespace LeetCode
         /// Write the output to console
         /// </summary>
         /// <param name="data"></param>
-        static void WriteOutput(ListNode data)
+        public static void WriteOutput(ListNode data)
         {
             var currentNode = data;
             while (currentNode != null)

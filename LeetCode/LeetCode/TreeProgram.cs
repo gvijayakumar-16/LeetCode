@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LeetCode
 {
-    static class TreeProgram
+    public static class TreeProgram
     {
         public class TreeNode
         {
@@ -14,6 +14,22 @@ namespace LeetCode
             public TreeNode left;
             public TreeNode right;
             public TreeNode(int x) { val = x; }
+        }
+
+        static int GetDepth(TreeNode root)
+        {
+            if (root == null) return 0;
+            int lDepth = GetDepth(root.left);
+            int rDepth = GetDepth(root.right);
+            if (lDepth > rDepth)
+                return lDepth + 1;
+            else
+                return rDepth + 1;
+        }
+
+        public static void PrintTree(TreeNode root)
+        {
+
         }
     }
 }
