@@ -42,6 +42,11 @@ namespace LeetCode
             root.left.right = new TreeNode(5);
         }
 
+        /// <summary>
+        /// Gets the height
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         static int Height(TreeNode node)
         {
             if (node == null) return 0;
