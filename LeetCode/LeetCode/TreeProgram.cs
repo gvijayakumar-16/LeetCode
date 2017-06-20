@@ -18,7 +18,8 @@ namespace LeetCode
 
         /// <summary>
         /// Fails for [1,2] all left nodes
-        /// Expected 1
+        /// Expected 2
+        /// Output 1
         /// </summary>
         /// <param name="root"></param>
         /// <returns></returns>
