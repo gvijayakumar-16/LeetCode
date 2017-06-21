@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LeetCode
 {
@@ -16,10 +13,31 @@ namespace LeetCode
             public TreeNode(int x) { val = x; }
         }
 
+        static IList<IList<int>> LevelOrder(TreeNode root)
+        {
+            var levelItems = new List<IList<int>>();
+            var height = GetDepth(root);
+            for (int i = 1; i <= height; ++i)
+            {
+                levelItems.Add(GetSubTree(root, i));
+            }
+            return levelItems;
+        }
+
+        static List<int> GetSubTree(TreeNode node, int level)
+        {
+            if (node == null) return null;
+            if (level == 1) return new List<int>() { node.val };
+            var levelItems = new List<int>();
+            if (node.left != null)
+                levelItems.AddRange(GetSubTree(node.left, level - 1));
+            if (node.right != null)
+                levelItems.AddRange(GetSubTree(node.right, level - 1));
+            return levelItems;
+        }
+
         /// <summary>
-        /// Fails for [1,2] all left nodes
-        /// Expected 2
-        /// Output 1
+        /// 
         /// </summary>
         /// <param name="root"></param>
         /// <returns></returns>
@@ -49,16 +67,24 @@ namespace LeetCode
         public static void PrintTree(TreeNode root)
         {
             ConstructTree(ref root);
-            Console.WriteLine("MinDepth = " + MinDepth(root));
+            var levels = LevelOrder(root);
+            Console.Write("Level Order Traversal:");
+            foreach (var level in levels)
+            {
+                foreach (var lvl in level)
+                {
+                    Console.WriteLine(lvl);
+                }
+            }
         }
 
         static void ConstructTree(ref TreeNode root)
         {
-            root = new TreeNode(1);
-            root.left = new TreeNode(2);
-            //root.right = new TreeNode(3);
-            //root.left.left = new TreeNode(4);
-            //root.left.right = new TreeNode(5);
+            root = new TreeNode(3);
+            root.left = new TreeNode(9);
+            root.right = new TreeNode(20);
+            root.right.left = new TreeNode(15);
+            root.right.right = new TreeNode(7);
         }
 
         /// <summary>
