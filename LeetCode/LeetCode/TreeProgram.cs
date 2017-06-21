@@ -17,7 +17,7 @@ namespace LeetCode
         {
             var levelItems = new List<IList<int>>();
             var height = GetDepth(root);
-            for (int i = 1; i <= height; ++i)
+            for (int i = height; i >= 1; --i)
             {
                 levelItems.Add(GetSubTree(root, i));
             }
