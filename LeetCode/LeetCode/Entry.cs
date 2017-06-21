@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace LeetCode
 {
@@ -6,8 +7,7 @@ namespace LeetCode
     {
         static void Main(string[] args)
         {
-            //ExecuteLinkedListProgram();
-            ExecuteTreeProgram();
+            ExecuteOtherProgram();
             if (System.Diagnostics.Debugger.IsAttached) Console.ReadKey();
         }
 
@@ -25,6 +25,13 @@ namespace LeetCode
         static void ExecuteTreeProgram()
         {
             TreeProgram.PrintTree(null);
+        }
+
+        static void ExecuteOtherProgram()
+        {
+            var items = Console.ReadLine();
+            var output = OtherProgram.SubsetsWithDup(items.Split(',').Select(x => int.Parse(x)).ToList().ToArray());
+            OtherProgram.PrintOutput(output);
         }
     }
 }
