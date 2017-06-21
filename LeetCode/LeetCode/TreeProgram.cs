@@ -26,7 +26,13 @@ namespace LeetCode
         static int MinDepth(TreeNode root)
         {
             if (root == null) return 0;
-            return 1 + Math.Min(MinDepth(root.left), MinDepth(root.right));
+            var leftDepth = MinDepth(root.left);
+            var rightDepth = MinDepth(root.right);
+            if (rightDepth == 0)
+                return 1 + leftDepth;
+            else if (leftDepth == 0)
+                return 1 + rightDepth;
+            return 1 + Math.Min(leftDepth, rightDepth);
         }
 
         static int GetDepth(TreeNode root)
