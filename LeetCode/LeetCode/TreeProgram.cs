@@ -19,20 +19,20 @@ namespace LeetCode
             var height = GetDepth(root);
             for (int i = height; i >= 1; --i)
             {
-                levelItems.Add(GetSubTree(root, i));
+                levelItems.Add(GetLevelElements(root, i));
             }
             return levelItems;
         }
 
-        static List<int> GetSubTree(TreeNode node, int level)
+        static List<int> GetLevelElements(TreeNode node, int level)
         {
             if (node == null) return null;
             if (level == 1) return new List<int>() { node.val };
             var levelItems = new List<int>();
             if (node.left != null)
-                levelItems.AddRange(GetSubTree(node.left, level - 1));
+                levelItems.AddRange(GetLevelElements(node.left, level - 1));
             if (node.right != null)
-                levelItems.AddRange(GetSubTree(node.right, level - 1));
+                levelItems.AddRange(GetLevelElements(node.right, level - 1));
             return levelItems;
         }
 
