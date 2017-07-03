@@ -29,8 +29,7 @@ namespace LeetCode
 
         static void ExecuteOtherProgram()
         {
-            var items = Console.ReadLine();
-            var output = OtherProgram.SubsetsWithDup(items.Split(',').Select(x => int.Parse(x)).ToList().ToArray());
+            var output = OtherProgram.FractionToDecimal(Convert.ToInt32(Console.ReadLine()), Convert.ToInt32(Console.ReadLine()));
             OtherProgram.PrintOutput(output);
         }
     }
