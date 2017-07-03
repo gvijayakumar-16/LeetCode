@@ -14,7 +14,10 @@ namespace LeetCode
         /// <param name="numerator"></param>
         /// <param name="denominator"></param>
         /// <returns></returns>
-        /// <remarks>Fails for -2147483648, -1999</remarks>
+        /// <remarks>
+        /// Fails for 1, 99
+        /// Expected:"0.(01)"
+        /// </remarks>
         public static string FractionToDecimal(int numerator, int denominator)
         {
             decimal fraction = (decimal)numerator / denominator;
@@ -24,16 +27,18 @@ namespace LeetCode
                 return output;
             }
             int previousNumber = -1, index = 0;
+            var previousNumbers = new List<int>();
             foreach (var number in output.Split('.')[1].ToCharArray())
             {
                 if (previousNumber == (number - '0'))
                 {
                     var decimalPart = output.Split('.')[1].Substring(0, index - 1);
-                    decimalPart += "(" + output.Split('.')[1].Substring(index - 1, index) + ")";
+                    decimalPart += "(" + output.Split('.')[1].Substring(index - 1, 1) + ")";
                     output = output.Split('.')[0] + "." + decimalPart;
                     break;
                 }
                 previousNumber = number - '0';
+                previousNumbers.Add(previousNumber);
                 ++index;
             }
             return output;
