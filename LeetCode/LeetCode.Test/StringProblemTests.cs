@@ -24,6 +24,8 @@ namespace LeetCode.Test
         [TestCase("pwwkew", 3)]
         [TestCase(" ", 1)]
         [TestCase("au", 2)]
+        [TestCase("dvdf", 3)]
+        [TestCase("nfpdmpi", 5)]
         public void ShouldReturnTheLongestSubstringWithoutRepeatingCharacters(string testValue, int expectedValue)
         {
             var returnValue = _stringProblem.GetLongestSubstringWithoutRepeatingCharacters(testValue);

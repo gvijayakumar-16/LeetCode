@@ -16,11 +16,11 @@ namespace LeetCode
                 if (!nonRepeatingCharacters.Contains(characters[i]))
                 {
                     nonRepeatingCharacters.Add(characters[i]);
-                    longestSubstring = nonRepeatingCharacters.Count;
+                    longestSubstring = nonRepeatingCharacters.Count > longestSubstring ? nonRepeatingCharacters.Count : longestSubstring;
                     continue;
                 }
                 longestSubstring = nonRepeatingCharacters.Count > longestSubstring ? nonRepeatingCharacters.Count : longestSubstring;
-                nonRepeatingCharacters.Clear();
+                nonRepeatingCharacters.RemoveRange(0, nonRepeatingCharacters.IndexOf(characters[i]) + 1);
                 nonRepeatingCharacters.Add(characters[i]);
             }
             return longestSubstring;
